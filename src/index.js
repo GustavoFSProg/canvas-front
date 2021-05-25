@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import SimpleTabs from './tabs'
 
 import CanvasDraw from 'react-canvas-draw'
 import reactDom from 'react-dom'
@@ -22,154 +23,157 @@ class Demo extends Component {
   }
   render() {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <h1>React Canvas Draw</h1>
-        <iframe
-          title="GitHub link"
-          src="https://ghbtns.com/github-btn.html?user=embiem&repo=react-canvas-draw&type=star&count=true"
-          frameBorder="0"
-          scrolling="0"
-          width="160px"
-          height="30px"
-        />
-        <h2>default</h2>
-        <p>
-          This is a simple <span>{`<CanvasDraw />`}</span> component with default values.
-        </p>
-        <p>Try it out! Draw on this white canvas:</p>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <CanvasDraw
-            style={{ border: '1px solid black' }}
-            onChange={() => console.log('onChange')}
+      <>
+        <SimpleTabs> Teste</SimpleTabs>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <h1>React Canvas Draw</h1>
+          <iframe
+            title="GitHub link"
+            src="https://ghbtns.com/github-btn.html?user=embiem&repo=react-canvas-draw&type=star&count=true"
+            frameBorder="0"
+            scrolling="0"
+            width="160px"
+            height="30px"
           />
-        </div>
+          <h2>default</h2>
+          <p>
+            This is a simple <span>{`<CanvasDraw />`}</span> component with default values.
+          </p>
+          <p>Try it out! Draw on this white canvas:</p>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <CanvasDraw
+              style={{ border: '1px solid black' }}
+              onChange={() => console.log('onChange')}
+            />
+          </div>
 
-        <h2>Custom Brush-Color</h2>
-        {/* <p>
+          <h2>Custom Brush-Color</h2>
+          {/* <p>
           Let's spice things up by using custom brush colors{' '}
           <span>{`<CanvasDraw brushColor={this.state.color} />`}</span>. We randomly change them
           every 2 seconds. But you could easily use a color-picker!
         </p> */}
-        <div>
-          Current color:{' '}
-          <div
-            style={{
-              display: 'inline-block',
-              width: '24px',
-              height: '24px',
-              backgroundColor: this.state.color,
-              border: '1px solid #272727',
-            }}
+          <div>
+            Current color:{' '}
+            <div
+              style={{
+                display: 'inline-block',
+                width: '24px',
+                height: '24px',
+                backgroundColor: this.state.color,
+                border: '1px solid #272727',
+              }}
+            />
+          </div>
+          <CanvasDraw style={{ border: '1px solid black' }} brushColor={this.state.color} />
+          <h2>Background Image</h2>
+
+          <CanvasDraw
+            brushColor="rgba(155,12,60,0.3)"
+            imgSrc="https://upload.wikimedia.org/wikipedia/commons/a/a1/Nepalese_Mhapuja_Mandala.jpg"
           />
-        </div>
-        <CanvasDraw style={{ border: '1px solid black' }} brushColor={this.state.color} />
-        <h2>Background Image</h2>
+          <h2>Hide UI</h2>
+          <p>
+            To hide the UI elements, set the `hideInterface` prop. You can also hide the grid with
+            the `hideGrid` prop.
+          </p>
+          <CanvasDraw hideInterface hideGrid />
 
-        <CanvasDraw
-          brushColor="rgba(155,12,60,0.3)"
-          imgSrc="https://upload.wikimedia.org/wikipedia/commons/a/a1/Nepalese_Mhapuja_Mandala.jpg"
-        />
-        <h2>Hide UI</h2>
-        <p>
-          To hide the UI elements, set the `hideInterface` prop. You can also hide the grid with the
-          `hideGrid` prop.
-        </p>
-        <CanvasDraw hideInterface hideGrid />
-
-        <div className={classNames.tools}>
+          <div className={classNames.tools}>
+            <button
+              onClick={() => {
+                localStorage.setItem('savedDrawing', this.saveableCanvas.getSaveData())
+              }}
+            >
+              Save
+            </button>
+            <button
+              onClick={() => {
+                this.saveableCanvas.clear()
+              }}
+            >
+              Clear
+            </button>
+            <button
+              onClick={() => {
+                this.saveableCanvas.undo()
+              }}
+            >
+              Undo
+            </button>
+            <div>
+              <label>Width:</label>
+              <input
+                type="number"
+                value={this.state.width}
+                onChange={(e) => this.setState({ width: parseInt(e.target.value, 10) })}
+              />
+            </div>
+            <div>
+              <label>Height:</label>
+              <input
+                type="number"
+                value={this.state.height}
+                onChange={(e) => this.setState({ height: parseInt(e.target.value, 10) })}
+              />
+            </div>
+            <div>
+              <label>Brush-Radius:</label>
+              <input
+                type="number"
+                value={this.state.brushRadius}
+                onChange={(e) => this.setState({ brushRadius: parseInt(e.target.value, 10) })}
+              />
+            </div>
+            <div>
+              <label>Lazy-Radius:</label>
+              <input
+                type="number"
+                value={this.state.lazyRadius}
+                onChange={(e) => this.setState({ lazyRadius: parseInt(e.target.value, 10) })}
+              />
+            </div>
+          </div>
+          <CanvasDraw
+            ref={(canvasDraw) => (this.saveableCanvas = canvasDraw)}
+            brushColor={this.state.color}
+            brushRadius={this.state.brushRadius}
+            lazyRadius={this.state.lazyRadius}
+            canvasWidth={this.state.width}
+            canvasHeight={this.state.height}
+          />
+          <p>
+            The following is a disabled canvas with a hidden grid that we use to load & show your
+            saved drawing.
+          </p>
           <button
             onClick={() => {
-              localStorage.setItem('savedDrawing', this.saveableCanvas.getSaveData())
+              this.loadableCanvas.loadSaveData(localStorage.getItem('savedDrawing'))
             }}
           >
-            Save
+            Load what you saved previously into the following canvas. Either by calling
+            `loadSaveData()` on the component's reference or passing it the `saveData` prop:
           </button>
-          <button
-            onClick={() => {
-              this.saveableCanvas.clear()
-            }}
-          >
-            Clear
-          </button>
-          <button
-            onClick={() => {
-              this.saveableCanvas.undo()
-            }}
-          >
-            Undo
-          </button>
-          <div>
-            <label>Width:</label>
-            <input
-              type="number"
-              value={this.state.width}
-              onChange={(e) => this.setState({ width: parseInt(e.target.value, 10) })}
-            />
-          </div>
-          <div>
-            <label>Height:</label>
-            <input
-              type="number"
-              value={this.state.height}
-              onChange={(e) => this.setState({ height: parseInt(e.target.value, 10) })}
-            />
-          </div>
-          <div>
-            <label>Brush-Radius:</label>
-            <input
-              type="number"
-              value={this.state.brushRadius}
-              onChange={(e) => this.setState({ brushRadius: parseInt(e.target.value, 10) })}
-            />
-          </div>
-          <div>
-            <label>Lazy-Radius:</label>
-            <input
-              type="number"
-              value={this.state.lazyRadius}
-              onChange={(e) => this.setState({ lazyRadius: parseInt(e.target.value, 10) })}
-            />
-          </div>
+          <CanvasDraw
+            disabled
+            hideGrid
+            ref={(canvasDraw) => (this.loadableCanvas = canvasDraw)}
+            saveData={localStorage.getItem('savedDrawing')}
+          />
+          <p>
+            The saving & loading also takes different dimensions into account. Change the width &
+            height, draw something and save it and then load it into the disabled canvas. It will
+            load your previously saved masterpiece scaled to the current canvas dimensions.
+          </p>
+          <p>
+            That's it for now! Take a look at the{' '}
+            <a href="https://github.com/mBeierl/react-canvas-draw/tree/master/demo/src">
+              source code of these examples
+            </a>
+            .
+          </p>
         </div>
-        <CanvasDraw
-          ref={(canvasDraw) => (this.saveableCanvas = canvasDraw)}
-          brushColor={this.state.color}
-          brushRadius={this.state.brushRadius}
-          lazyRadius={this.state.lazyRadius}
-          canvasWidth={this.state.width}
-          canvasHeight={this.state.height}
-        />
-        <p>
-          The following is a disabled canvas with a hidden grid that we use to load & show your
-          saved drawing.
-        </p>
-        <button
-          onClick={() => {
-            this.loadableCanvas.loadSaveData(localStorage.getItem('savedDrawing'))
-          }}
-        >
-          Load what you saved previously into the following canvas. Either by calling
-          `loadSaveData()` on the component's reference or passing it the `saveData` prop:
-        </button>
-        <CanvasDraw
-          disabled
-          hideGrid
-          ref={(canvasDraw) => (this.loadableCanvas = canvasDraw)}
-          saveData={localStorage.getItem('savedDrawing')}
-        />
-        <p>
-          The saving & loading also takes different dimensions into account. Change the width &
-          height, draw something and save it and then load it into the disabled canvas. It will load
-          your previously saved masterpiece scaled to the current canvas dimensions.
-        </p>
-        <p>
-          That's it for now! Take a look at the{' '}
-          <a href="https://github.com/mBeierl/react-canvas-draw/tree/master/demo/src">
-            source code of these examples
-          </a>
-          .
-        </p>
-      </div>
+      </>
     )
   }
 }
