@@ -22,7 +22,7 @@ class Demo extends Component {
   }
   render() {
     return (
-      <div>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <h1>React Canvas Draw</h1>
         <iframe
           title="GitHub link"
@@ -37,13 +37,19 @@ class Demo extends Component {
           This is a simple <span>{`<CanvasDraw />`}</span> component with default values.
         </p>
         <p>Try it out! Draw on this white canvas:</p>
-        <CanvasDraw onChange={() => console.log('onChange')} />
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <CanvasDraw
+            style={{ border: '1px solid black' }}
+            onChange={() => console.log('onChange')}
+          />
+        </div>
+
         <h2>Custom Brush-Color</h2>
-        <p>
+        {/* <p>
           Let's spice things up by using custom brush colors{' '}
           <span>{`<CanvasDraw brushColor={this.state.color} />`}</span>. We randomly change them
           every 2 seconds. But you could easily use a color-picker!
-        </p>
+        </p> */}
         <div>
           Current color:{' '}
           <div
@@ -56,12 +62,9 @@ class Demo extends Component {
             }}
           />
         </div>
-        <CanvasDraw brushColor={this.state.color} />
+        <CanvasDraw style={{ border: '1px solid black' }} brushColor={this.state.color} />
         <h2>Background Image</h2>
-        <p>You can also set the `imgSrc` prop to draw on a background-image.</p>
-        <p>
-          It will automatically resize to fit the canvas and centered vertically & horizontally.
-        </p>
+
         <CanvasDraw
           brushColor="rgba(155,12,60,0.3)"
           imgSrc="https://upload.wikimedia.org/wikipedia/commons/a/a1/Nepalese_Mhapuja_Mandala.jpg"
@@ -72,14 +75,7 @@ class Demo extends Component {
           `hideGrid` prop.
         </p>
         <CanvasDraw hideInterface hideGrid />
-        <h2>Save & Load</h2>
-        <p>
-          This part got me most excited. Very easy to use saving and loading of drawings. It even
-          comes with a customizable loading speed to control whether your drawing should load
-          instantly (loadTimeOffset = 0) or appear after some time (loadTimeOffset)
-          <span>{`<CanvasDraw loadTimeOffset={10} />`}</span>
-        </p>
-        <p>Try it out! Draw something, hit "Save" and then "Load".</p>
+
         <div className={classNames.tools}>
           <button
             onClick={() => {
