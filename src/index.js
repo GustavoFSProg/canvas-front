@@ -24,7 +24,7 @@ class Demo extends Component {
   render() {
     return (
       <>
-        <SimpleTabs> Teste</SimpleTabs>
+        <SimpleTabs />
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <h1>React Canvas Draw</h1>
           <iframe
@@ -40,6 +40,7 @@ class Demo extends Component {
             This is a simple <span>{`<CanvasDraw />`}</span> component with default values.
           </p>
           <p>Try it out! Draw on this white canvas:</p>
+          <span>Desenhe abaixo: </span>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <CanvasDraw
               style={{ border: '1px solid black' }}
