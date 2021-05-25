@@ -1,5 +1,3 @@
-import './App.css'
-
 import React, { Component } from 'react'
 import { render } from 'react-dom'
 
@@ -61,11 +59,9 @@ class Demo extends Component {
         <CanvasDraw brushColor={this.state.color} />
         <h2>Background Image</h2>
         <p>You can also set the `imgSrc` prop to draw on a background-image.</p>
-        <p>
-          It will automatically resize to fit the canvas and centered vertically & horizontally.
-        </p>
+
         <CanvasDraw
-          brushColor="rgba(155,12,60,0.3)"
+          // brushColor="rgba(155,12,60,0.3)"
           imgSrc="https://upload.wikimedia.org/wikipedia/commons/a/a1/Nepalese_Mhapuja_Mandala.jpg"
         />
         <h2>Hide UI</h2>
@@ -78,7 +74,7 @@ class Demo extends Component {
         <p>
           This part got me most excited. Very easy to use saving and loading of drawings. It even
           comes with a customizable loading speed to control whether your drawing should load
-          instantly (loadTimeOffset = 0) or appear after some time (loadTimeOffset > 0){' '}
+          instantly (loadTimeOffset = 0) or appear after some time (loadTimeOffset)
           <span>{`<CanvasDraw loadTimeOffset={10} />`}</span>
         </p>
         <p>Try it out! Draw something, hit "Save" and then "Load".</p>
