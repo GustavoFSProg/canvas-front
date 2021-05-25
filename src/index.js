@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import SimpleTabs from './tabs'
 
 import CanvasDraw from 'react-canvas-draw'
 import reactDom from 'react-dom'
@@ -24,7 +23,6 @@ class Demo extends Component {
   render() {
     return (
       <>
-        {/* <SimpleTabs /> */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <h1>React Canvas Draw</h1>
           <iframe
